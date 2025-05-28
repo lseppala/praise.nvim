@@ -18,7 +18,7 @@ Install with your favorite neovim package manager. Run `:Praise` to open the PR 
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
-````lua
+```lua
 {
   "lseppala/praise.nvim",
   config = function()
@@ -28,11 +28,11 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
     })
   end,
 }
-
+```
 
  Using [vim-plug](https://github.com/junegunn/vim-plug)
 
-```vim
+```viml
  Plug 'lseppala/praise.nvim'
 ```
 
@@ -46,16 +46,16 @@ Lua configuration:
 require('praise').setup({
   keymap = '<leader>pr'
 })
-````
+```
 
 Vimscript:
 
-```vim
+```viml
 lua require('praise').setup({ keymap = '<leader>pr' })
 ```
 
-Alternatively use a nnoremap:
+Alternatively, use a nnoremap:
 
-```vim
+```viml
 nnoremap <leader>pr :Praise<CR>
 ```
