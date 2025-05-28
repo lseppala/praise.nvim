@@ -21,7 +21,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 {
   "lseppala/praise.nvim",
   config = function()
-    require("praise.nvim").setup({
+    require("praise").setup({
       -- Optional: set a keymap
       keymap = "<leader>pr",
     })
