@@ -111,6 +111,31 @@ local function open_url(url)
   vim.fn.system(string.format("open %s", vim.fn.shellescape(url)))
 end
 
+-- Add this helper function at the top of your module
+local function prompt_yn(msg, default_yes)
+  default_yes = default_yes == nil and true or default_yes
+  local prompt = default_yes and " [Y/n]: " or " [y/N]: "
+
+  vim.api.nvim_echo({{msg .. prompt, "Question"}}, false, {})
+
+  local char = vim.fn.getchar()
+  local response = string.char(char):lower()
+
+  -- Clear the prompt line
+  vim.api.nvim_echo({{"", "Normal"}}, false, {})
+
+  if response == "y" then
+    return true
+  elseif response == "n" then
+    return false
+  elseif response == "\r" or response == "\n" then  -- Enter key
+    return default_yes
+  else
+    -- Any other key defaults to the default choice
+    return default_yes
+  end
+end
+
 -- Main function to find and open PR
 function M.find_pr()
   -- Get repository info
@@ -148,15 +173,11 @@ function M.find_pr()
   if not pr_nodes or #pr_nodes == 0 then
     local msg = string.format("No pull request found for commit %s. Open commit in browser?", sha:sub(1, 7))
 
-    vim.ui.select({'Yes', 'No'}, {
-      prompt = msg,
-    }, function(choice)
-      if choice == 'Yes' then
-        local commit_url = string.format("https://github.com/%s/%s/commit/%s", owner, repo, sha)
-        vim.notify(string.format("Opening commit %s in browser", sha:sub(1, 7)))
-        open_url(commit_url)
-      end
-    end)
+    if prompt_yn(msg, true) then
+      local commit_url = string.format("https://github.com/%s/%s/commit/%s", owner, repo, sha)
+      vim.notify(string.format("Opening commit %s in browser", sha:sub(1, 7)))
+      open_url(commit_url)
+    end
 
     return
   end
