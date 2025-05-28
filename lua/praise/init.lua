@@ -146,7 +146,18 @@ function M.find_pr()
   local pr_nodes = vim.tbl_get(result, "data", "repository", "object", "associatedPullRequests", "nodes")
 
   if not pr_nodes or #pr_nodes == 0 then
-    vim.notify(string.format("No pull request found for commit %s", sha:sub(1, 7)), vim.log.levels.WARN)
+    local msg = string.format("No pull request found for commit %s. Open commit in browser?", sha:sub(1, 7))
+
+    vim.ui.select({'Yes', 'No'}, {
+      prompt = msg,
+    }, function(choice)
+      if choice == 'Yes' then
+        local commit_url = string.format("https://github.com/%s/%s/commit/%s", owner, repo, sha)
+        vim.notify(string.format("Opening commit %s in browser", sha:sub(1, 7)))
+        open_url(commit_url)
+      end
+    end)
+
     return
   end
 
