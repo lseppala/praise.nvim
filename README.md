@@ -1,8 +1,9 @@
 # praise.nvim
 
-> Don't blame. Praise!
+> [!TIP]
+>  Don't blame. PRaise!
 
-Simple neovim plugin to pull up the GitHub pull request (PR) that introduced or changed the line under your cursor. Extremely useful for getting more context about _why_ the code was written the way it was (including linked issues) and to praise for a job well done.
+Simple neovim plugin to pull up the Pull Request (PR) on GitHub that introduced or changed the line under your cursor. Extremely useful for getting more context about _why_ the code was written the way it was (including linked issues), and to praise for a job well done.
 
 ## Requirements
 
