@@ -17,14 +17,15 @@ local function get_repo_info()
   -- Match GitHub URLs (both HTTPS and SSH)
   -- https://github.com/owner/repo.git
   -- git@github.com:owner/repo.git
-  local owner, repo = url:match("github%.com[:/]([^/]+)/([^/%.]+)")
+  local owner, repo = url:match("github%.com[:/]([^/:]+)/(.+)")
 
   if not owner or not repo then
     return nil, nil
   end
 
-  -- Remove .git suffix if present
-  repo = repo:gsub("%.git$", "")
+  -- Remove .git suffix and trim whitespace
+  repo = repo:gsub("%.git$", ""):gsub("%s+", "")
+  owner = owner:gsub("%s+", "")
 
   return owner, repo
 end
@@ -105,7 +106,7 @@ end
 local function open_url(url)
   -- Copy URL to clipboard
   vim.fn.system(string.format("echo %s | pbcopy", vim.fn.shellescape(url)))
-  
+
   -- Open in browser
   vim.fn.system(string.format("open %s", vim.fn.shellescape(url)))
 end
