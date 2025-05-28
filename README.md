@@ -9,10 +9,11 @@ Simple neovim plugin to pull up the Pull Request (PR) on GitHub that introduced 
 
 - The [`gh` cli tool](https://cli.github.com/) must be installed and authenticated with your GitHub account, and SSO must be configured if your organization requires it.
 - Neovim 0.5 or later
+- Launching browser and copying to clipboard assumes macOS. Open issues if other OS support is wanted.
 
 ## Usage
 
-Install with your favorite neovim package manager. Run `:Praise` to open the PR in your browser. It will also add the PR's URL to kkkk. You can also set up a keymap for convenience.
+Install with your favorite neovim package manager. Run `:Praise` to open the PR in your browser. It will also add the PR's URL to the clipboard. You can also set up a keymap for convenience.
 
 ### Installation
 
