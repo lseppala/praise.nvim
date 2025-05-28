@@ -14,6 +14,9 @@ local function get_repo_info()
     return nil, nil
   end
 
+    -- Trim whitespace first
+  url = url:gsub("^%s+", ""):gsub("%s+$", "")
+
   -- Match GitHub URLs (both HTTPS and SSH)
   -- https://github.com/owner/repo.git
   -- git@github.com:owner/repo.git
@@ -22,10 +25,6 @@ local function get_repo_info()
   if not owner or not repo then
     return nil, nil
   end
-
-  -- Remove .git suffix and trim whitespace
-  repo = repo:gsub("%.git$", ""):gsub("%s+", "")
-  owner = owner:gsub("%s+", "")
 
   return owner, repo
 end
