@@ -42,17 +42,15 @@ The setup below is optional. The `:Praise` command will work without it, but you
 Lua configuration:
 
 ```lua
-  require('praise').setup({
-    keymap = '<leader>pr'
-  })
+require('praise').setup({
+  keymap = '<leader>pr'
+})
 ````
 
 Vimscript:
 
 ```vim
-  lua require('praise').setup({
-    keymap = '<leader>pr'
-  })
+lua require('praise').setup({ keymap = '<leader>pr' })
 ```
 
 Alternatively use a nnoremap:
