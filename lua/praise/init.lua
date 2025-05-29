@@ -25,7 +25,9 @@ local function get_repo_info()
   end
 
   -- Remove .git suffix and any whitespace
-  repo = repo:gsub("(%.git)?%s*$", "")
+  repo = repo:gsub("%.git%s*$", "")
+  -- remove whitespace (done separately to avoid issues with trailing .git)
+  owner = owner:gsub("%s+", "")
 
   return owner, repo
 end
