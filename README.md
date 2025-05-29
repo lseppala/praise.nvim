@@ -60,3 +60,26 @@ Alternatively, use a nnoremap:
 ```viml
 nnoremap <leader>pr :Praise<CR>
 ```
+
+## Development
+
+### Running Tests
+
+This project includes a test suite to ensure the reliability of core functionality. To run the tests:
+
+```bash
+cd tests
+lua run_tests.lua
+```
+
+The test suite currently covers:
+- URL parsing for GitHub repositories (HTTPS and SSH formats)
+- Edge cases and error handling
+- Input validation
+
+Individual test files can also be run directly:
+
+```bash
+cd tests
+lua parse_github_url_test.lua
+```

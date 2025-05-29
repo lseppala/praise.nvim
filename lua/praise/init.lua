@@ -1,5 +1,28 @@
 local M = {}
 
+-- Parse GitHub URL to extract owner and repository name
+-- Supports both HTTPS and SSH formats with and without .git suffix
+-- https://github.com/owner/repo.git
+-- https://github.com/owner/repo
+-- git@github.com:owner/repo.git
+local function parse_github_url(url)
+  if not url or url == "" then
+    return nil, nil
+  end
+
+  local owner, repo = url:match("github%.com[:/]([^/:]+)/(.+)")
+
+  if not owner or not repo then
+    return nil, nil
+  end
+
+  -- Remove .git suffix and any trailing whitespace. Done twice to ensure we
+  -- handle cases without .git
+  repo = repo:gsub("%.git%s*$", ""):gsub("%s*$", "")
+
+  return owner, repo
+end
+
 -- Extract owner and repo from git remote URL
 local function get_repo_info()
   local handle = io.popen("git remote get-url origin 2>/dev/null")
@@ -10,26 +33,7 @@ local function get_repo_info()
   local url = handle:read("*a")
   handle:close()
 
-  if not url or url == "" then
-    return nil, nil
-  end
-
-  -- Match GitHub URLs (both HTTPS and SSH)
-  -- https://github.com/owner/repo.git
-  -- git@github.com:owner/repo.git
-  local owner, repo = url:match("github%.com[:/]([^/:]+)/(.+)")
-
-
-  if not owner or not repo then
-    return nil, nil
-  end
-
-  -- Remove .git suffix and any whitespace
-  repo = repo:gsub("%.git%s*$", "")
-  -- remove whitespace (done separately to avoid issues with trailing .git)
-  owner = owner:gsub("%s+", "")
-
-  return owner, repo
+  return parse_github_url(url)
 end
 
 -- Get commit SHA for current line using git blame
@@ -208,5 +212,8 @@ function M.setup(opts)
     })
   end
 end
+
+-- Expose private functions for testing
+M._parse_github_url = parse_github_url
 
 return M
